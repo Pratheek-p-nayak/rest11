@@ -2,6 +2,7 @@ package pkg1.student;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,5 +39,14 @@ public class StudentController {
 	public Optional<StudentEntity> getStudentsById2(@RequestParam int id){
 		return sr.findById(id);
 	}
-
+	@GetMapping("/student/getByName1/{name}")
+	public List<StudentEntity> getByName1(@PathVariable String name){
+		return sr.findByName(name);
+	}
+	@GetMapping("/student/getByName2/{name}")
+	public List<StudentEntity> getByName2(@PathVariable String name){
+		var list1=sr.findAll();
+		var list2=list1.stream().filter(n->n.getName().equalsIgnoreCase(name)).collect(Collectors.toList());                            //
+		return list2;
+	}
 }
